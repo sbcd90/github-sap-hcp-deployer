@@ -3,11 +3,17 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>com.sap.hcp</groupId>
-    <artifactId>github-deployment</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>github-sap-hcp-deployment-tool</artifactId>
+    <version>1.0</version>
     <packaging>war</packaging>
+    <name>github-sap-hcp-deployment-tool</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <bintray.repo>github-sap-hcp-deployment-tool</bintray.repo>
+        <bintray.package>github-sap-hcp-deployment-tool</bintray.package>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -59,5 +65,12 @@
             </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <repository>
+            <id>github-sap-hcp-deployment-tool</id>
+            <url>https://api.bintray.com/maven/sbcd90/${bintray.repo}/${bintray.package}/;publish=1</url>
+        </repository>
+    </distributionManagement>
 
 </project>

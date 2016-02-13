@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<settings xsi:schemaLocation='http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd'
+          xmlns='http://maven.apache.org/SETTINGS/1.0.0' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
+    <servers>
+        <server>
+            <id>github-sap-hcp-deployment-tool</id>
+            <username>sbcd90</username>
+            <password>ba4d780d258cd747ef09f0cce35849f858ee5f14</password>
+        </server>
+    </servers>
+    <profiles>
+        <profile>
+            <repositories>
+                <repository>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>bintray-sbcd90-github-sap-hcp-deployment-tool</id>
+                    <name>bintray</name>
+                    <url>http://dl.bintray.com/sbcd90/github-sap-hcp-deployment-tool</url>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>bintray-sbcd90-github-sap-hcp-deployment-tool</id>
+                    <name>bintray-plugins</name>
+                    <url>http://dl.bintray.com/sbcd90/github-sap-hcp-deployment-tool</url>
+                </pluginRepository>
+            </pluginRepositories>
+            <id>bintray</id>
+        </profile>
+    </profiles>
+    <activeProfiles>
+        <activeProfile>bintray</activeProfile>
+    </activeProfiles>
+</settings>
