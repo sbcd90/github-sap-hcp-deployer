@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="x-ua-compatible" content="IE=edge">
+        <meta charset="UTF-8">
+        <title>Github SAP HCP deployment</title>
+        <script
+            id = "sap-ui-bootstrap"
+            src="https://openui5.hana.ondemand.com/1.34.6/resources/sap-ui-core.js"
+            data-sap-ui-theme="sap_bluecrystal"
+            data-sap-ui-libs="sap.m, sap.ui.layout, sap.ui.commons"
+            data-sap-ui-preload="async"></script>
+
+        <script type="text/javascript">
+            sap.ui.getCore().attachInit(function() {
+                var app = new sap.m.App("github-deployment", {
+                            initialPage: "page1"
+                          });
+
+                var github_separator = new sap.ui.commons.TextView({text : "Github account details", design : "Bold"});
+                var github_repositoryUriLabel = new sap.ui.commons.Label({text : "Github Repository https Url(*) : "});
+                var github_repositoryUriText = new sap.ui.commons.TextField();
+                var github_usernameLabel = new sap.ui.commons.Label({text : "Github username(*) : "});
+                var github_usernameText = new sap.ui.commons.TextField();
+                var github_passwordLabel = new sap.ui.commons.Label({text : "Github password(*) : "});
+                var github_passwordText = new sap.ui.commons.TextField();
+                var neo_separator = new sap.ui.commons.TextView({text : "SAP HCP account details", design : "Bold"});
+                var neo_hostLabel = new sap.ui.commons.Label({text : "Host(*) : "});
+                var neo_hostText = new sap.ui.commons.TextField();
+                var neo_accountLabel = new sap.ui.commons.Label({text : "Account(*) : "});
+                var neo_accountText = new sap.ui.commons.TextField();
+                var neo_userLabel = new sap.ui.commons.Label({text : "User(*) : "});
+                var neo_userText = new sap.ui.commons.TextField();
+                var neo_passwordLabel = new sap.ui.commons.Label({text : "Password(*) : "});
+                var neo_passwordText = new sap.ui.commons.TextField();
+                var neo_appnameLabel = new sap.ui.commons.Label({text : "Application Name(*) : "});
+                var neo_appnameText = new sap.ui.commons.TextField();
+
+                var form1 = new sap.ui.layout.form.SimpleForm({
+                    content : [github_separator,
+                                github_repositoryUriLabel, github_repositoryUriText,
+                                github_usernameLabel, github_usernameText,
+                                github_passwordLabel, github_passwordText]
+                });
+
+                var form2 = new sap.ui.layout.form.SimpleForm({
+                    content : [neo_separator,
+                                neo_hostLabel, neo_hostText,
+                                neo_accountLabel, neo_accountText,
+                                neo_userLabel, neo_userText,
+                                neo_passwordLabel, neo_passwordText,
+                                neo_appnameLabel, neo_appnameText]
+                });
+
+                var button = new sap.m.Button({
+                        text : "Upload application",
+                        press : function() {
+                            if (github_repositoryUriText.getValue() != "" &&
+                                github_usernameText.getValue() != "" &&
+                                github_passwordText.getValue() != "" &&
+                                neo_hostText.getValue() != "" &&
+                                neo_accountText.getValue() != "" &&
+                                neo_userText.getValue() != "" &&
+                                neo_passwordText.getValue() != "" &&
+                                neo_appnameText.getValue() != "") {
+                                jQuery.post("uploadApplication",
+                                {
+                                    "Github-repositoryUri" : github_repositoryUriText.getValue(),
+                                    "Github-username" : github_usernameText.getValue(),
+                                    "Github-password" : github_passwordText.getValue(),
+                                    "Maven-goals" : "clean install",
+                                    "Neo-host" : neo_hostText.getValue(),
+                                    "Neo-account" : neo_accountText.getValue(),
+                                    "Neo-user" : neo_userText.getValue(),
+                                    "Neo-hcpPassword" : neo_passwordText.getValue(),
+                                    "Neo-appname" : neo_appnameText.getValue()
+                                },
+                                function(data, status) {
+                                    console.log(status);
+                                    app.to("page2");
+                                });
+                            }
+                            else {
+                                sap.m.MessageToast.show("Atleast one of the mandatory fields is empty");
+                            }
+                        }
+                    });
+
+                var page1 = new sap.m.Page("page1", {
+                    title : "Github-SAP HCP deployer",
+                    showNavButton : false,
+                    content : [form1,form2, button]
+                });
+
+                var page2 = new sap.m.Page("page2", {
+                    title : "App uploaded successfully",
+                    showNavButton : true,
+                    navButtonPress : function() {
+                        app.back();
+                    },
+                    content : new sap.m.Text({
+                        text : "Visit SAP HCP Portal page for starting the application"
+                    })
+                });
+
+                app.addPage(page1).addPage(page2);
+                app.placeAt("content");
+            });
+        </script>
+    </head>
+    <body class="sapUiBody" id="content">
+    </body>
+</html>
